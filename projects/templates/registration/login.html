@@ -1,0 +1,17 @@
+{% extends "projects/base.html" %}
+{% block title %}Staff sign in — Sambandha{% endblock %}
+{% block content %}
+<section class="auth-shell">
+  <form method="post" class="auth-card">
+    {% csrf_token %}
+    <p class="eyebrow">STAFF WORKSPACE</p>
+    <h1>Sign in</h1>
+    {% if form.errors %}<div class="form-errors">Your username or password was not recognized.</div>{% endif %}
+    <label>Username{{ form.username }}</label>
+    <label>Password{{ form.password }}</label>
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+    <button class="button primary wide" type="submit">Continue</button>
+  </form>
+</section>
+{% endblock %}
+

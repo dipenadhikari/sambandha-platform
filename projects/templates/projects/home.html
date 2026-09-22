@@ -1,0 +1,50 @@
+{% extends "projects/base.html" %}
+{% block title %}Sambandha — Plan your space with clarity{% endblock %}
+{% block content %}
+<section class="hero shell">
+  <div class="hero-copy">
+    <p class="eyebrow">DESIGN · QUOTATION · EXECUTION</p>
+    <h1>Plan your space with clarity before construction begins.</h1>
+    <p class="lede">Choose the work you need, compare investment levels, and receive a transparent planning range. Sambandha then verifies the scope on site before the final proposal.</p>
+    <div class="button-row">
+      <a class="button primary" href="{% url 'quote_request' %}">Build my estimate</a>
+      <a class="button secondary" href="#process">See the process</a>
+    </div>
+  </div>
+  <div class="hero-panel" aria-label="Sambandha process summary">
+    <span class="panel-number">01—04</span>
+    <h2>One connected project journey</h2>
+    <dl>
+      <div><dt>Configure</dt><dd>Scope and planning estimate</dd></div>
+      <div><dt>Verify</dt><dd>Site measurement and material brief</dd></div>
+      <div><dt>Approve</dt><dd>Final proposal and documented scope</dd></div>
+      <div><dt>Build</dt><dd>Milestones, decisions, and execution</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="band">
+  <div class="shell trust-grid">
+    <div><strong>Transparent range</strong><span>Know the assumptions behind the number.</span></div>
+    <div><strong>Site-verified scope</strong><span>Planning estimates are confirmed before contract.</span></div>
+    <div><strong>Documented decisions</strong><span>Track the next action from inquiry to completion.</span></div>
+  </div>
+</section>
+
+<section class="shell section" id="process">
+  <p class="eyebrow">HOW IT WORKS</p>
+  <h2 class="section-title">A practical path from idea to execution.</h2>
+  <div class="process-grid">
+    <article><span>01</span><h3>Describe your project</h3><p>Tell us the location, finish level, and services you’re considering.</p></article>
+    <article><span>02</span><h3>Review the range</h3><p>See an itemized planning estimate, including coordination and uncertainty.</p></article>
+    <article><span>03</span><h3>Verify on site</h3><p>Our team measures the space and confirms materials, conditions, and exclusions.</p></article>
+    <article><span>04</span><h3>Approve and build</h3><p>Move forward with a documented proposal, responsibilities, and milestones.</p></article>
+  </div>
+</section>
+
+<section class="shell callout">
+  <div><p class="eyebrow">START WITH THE NUMBERS</p><h2>A useful estimate takes minutes.</h2></div>
+  <a class="button light" href="{% url 'quote_request' %}">Configure my project</a>
+</section>
+{% endblock %}
+

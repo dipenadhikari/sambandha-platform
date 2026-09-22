@@ -1,0 +1,55 @@
+{% extends "projects/base.html" %}
+{% load humanize %}
+{% block title %}{{ project.lead.full_name }} — Sambandha staff{% endblock %}
+{% block content %}
+<section class="staff-shell shell">
+  <a class="back-link" href="{% url 'staff_dashboard' %}">← Back to pipeline</a>
+  <div class="project-header">
+    <div><p class="eyebrow">PROJECT {{ project.lead.reference }}</p><h1>{{ project.lead.full_name }}</h1><p>{{ project.lead.phone }} · {{ project.lead.email|default:"No email" }} · {{ project.lead.location }}</p></div>
+    <span class="status-pill status-{{ project.status }}">{{ project.get_status_display }}</span>
+  </div>
+
+  <div class="detail-grid">
+    <div class="detail-main">
+      <article class="workspace-card">
+        <h2>Project details</h2>
+        <form method="post" class="quote-form compact-form">
+          {% csrf_token %}<input type="hidden" name="action" value="update">
+          <div class="form-grid">
+            <label>Status{{ update_form.status }}{{ update_form.status.errors }}</label>
+            <label>Assigned staff{{ update_form.assigned_to }}{{ update_form.assigned_to.errors }}</label>
+            <label>Site visit{{ update_form.site_visit_at }}{{ update_form.site_visit_at.errors }}</label>
+            <label>Next action{{ update_form.next_action }}{{ update_form.next_action.errors }}</label>
+          </div>
+          <button class="button primary" type="submit">Save changes</button>
+        </form>
+      </article>
+
+      <article class="workspace-card">
+        <h2>Activity</h2>
+        <form method="post" class="note-form">
+          {% csrf_token %}<input type="hidden" name="action" value="note">
+          {{ activity_form.note }}{{ activity_form.note.errors }}
+          <button class="button secondary" type="submit">Add note</button>
+        </form>
+        <ol class="timeline">
+          {% for activity in project.activities.all %}
+            <li><span></span><div><strong>{{ activity.event }}</strong><p>{{ activity.note|default:"No additional note." }}</p><small>{{ activity.created_at }}{% if activity.created_by %} · {{ activity.created_by.get_username }}{% endif %}</small></div></li>
+          {% empty %}<li>No activity recorded.</li>{% endfor %}
+        </ol>
+      </article>
+    </div>
+
+    <aside class="workspace-card estimate-summary">
+      <p class="eyebrow">PRELIMINARY ESTIMATE</p>
+      <h2>NPR {{ project.lead.estimate.estimate_low|intcomma }}–{{ project.lead.estimate.estimate_high|intcomma }}</h2>
+      <p>{{ project.lead.get_finish_level_display }} · {{ project.lead.get_project_type_display }}</p>
+      <div class="result-lines">
+        {% for item in project.lead.estimate.selections %}<div><span>{{ item.name }} × {{ item.quantity|intcomma }}</span><strong>{{ item.total|intcomma }}</strong></div>{% endfor %}
+      </div>
+      {% if project.lead.notes %}<div class="estimate-note"><strong>Customer notes</strong><p>{{ project.lead.notes }}</p></div>{% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}
+

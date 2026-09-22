@@ -1,0 +1,48 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Transparent interior and exterior project planning for homes and businesses in Nepal.">
+  <title>{% block title %}Sambandha Interior & Exterior{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'projects/favicon.svg' %}">
+  <link rel="stylesheet" href="{% static 'projects/app.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{% url 'home' %}" aria-label="Sambandha home">
+      <span class="brand-mark">स</span>
+      <span><strong>Sambandha</strong><small>Interior & Exterior</small></span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="{% url 'quote_request' %}">Plan my project</a>
+      {% if user.is_staff %}
+        <a href="{% url 'staff_dashboard' %}">Staff workspace</a>
+        <form action="{% url 'logout' %}" method="post" class="inline-form">
+          {% csrf_token %}
+          <button class="link-button" type="submit">Sign out</button>
+        </form>
+      {% else %}
+        <a class="quiet-link" href="{% url 'login' %}">Staff</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  {% if messages %}
+    <div class="message-stack" aria-live="polite">
+      {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}
+    </div>
+  {% endif %}
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="site-footer">
+    <p><strong>Sambandha Interior & Exterior Pvt. Ltd.</strong></p>
+    <p>We don’t just build spaces. We build relationships with your home.</p>
+    <p lang="ne">हामी घरसँग सम्बन्ध जोड्छौँ।</p>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
+

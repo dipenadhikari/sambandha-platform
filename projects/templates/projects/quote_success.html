@@ -1,0 +1,27 @@
+{% extends "projects/base.html" %}
+{% load humanize %}
+{% block title %}Estimate {{ lead.reference }} — Sambandha{% endblock %}
+{% block content %}
+<section class="shell success-layout">
+  <div>
+    <p class="eyebrow">ESTIMATE SAVED</p>
+    <h1>Thank you, {{ lead.full_name }}.</h1>
+    <p class="lede">Your request is now in Sambandha’s review queue. A team member should contact you within one business day.</p>
+    <p class="reference">Reference <strong>{{ lead.reference }}</strong></p>
+    <a class="button secondary" href="{% url 'home' %}">Return home</a>
+  </div>
+  <article class="result-card">
+    <p class="eyebrow">PRELIMINARY RANGE</p>
+    <h2>NPR {{ lead.estimate.estimate_low|intcomma }} – {{ lead.estimate.estimate_high|intcomma }}</h2>
+    <p>{{ lead.get_finish_level_display }} specification · {{ lead.location }}</p>
+    <div class="result-lines">
+      {% for item in lead.estimate.selections %}
+        <div><span>{{ item.name }} × {{ item.quantity|intcomma }} {{ item.unit }}</span><strong>NPR {{ item.total|intcomma }}</strong></div>
+      {% endfor %}
+      <div><span>Design & coordination</span><strong>NPR {{ lead.estimate.coordination_fee|intcomma }}</strong></div>
+    </div>
+    <p class="legal-note">Planning estimate only. The final proposal depends on site measurements, technical conditions, selected materials, and an agreed scope.</p>
+  </article>
+</section>
+{% endblock %}
+

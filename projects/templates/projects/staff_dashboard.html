@@ -1,0 +1,46 @@
+{% extends "projects/base.html" %}
+{% load humanize %}
+{% block title %}Project pipeline — Sambandha{% endblock %}
+{% block content %}
+<section class="staff-shell shell">
+  <div class="page-heading">
+    <div><p class="eyebrow">STAFF WORKSPACE</p><h1>Project pipeline</h1></div>
+    <p>Signed in as <strong>{{ user.get_username }}</strong></p>
+  </div>
+
+  <div class="status-grid">
+    {% for card in status_cards %}
+      <a class="status-card {% if active_status == card.value %}active{% endif %}" href="?status={{ card.value }}">
+        <strong>{{ card.count }}</strong><span>{{ card.label }}</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  <form method="get" class="filter-bar">
+    {% if active_status %}<input type="hidden" name="status" value="{{ active_status }}">{% endif %}
+    <input type="search" name="q" value="{{ query }}" placeholder="Search name, phone, or location" aria-label="Search projects">
+    <button class="button secondary" type="submit">Search</button>
+    {% if active_status or query %}<a href="{% url 'staff_dashboard' %}">Clear filters</a>{% endif %}
+  </form>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Customer</th><th>Status</th><th>Estimate</th><th>Next action</th><th>Updated</th></tr></thead>
+      <tbody>
+        {% for project in projects %}
+          <tr>
+            <td><a href="{{ project.get_absolute_url }}"><strong>{{ project.lead.full_name }}</strong></a><small>{{ project.lead.phone }} · {{ project.lead.location }}</small></td>
+            <td><span class="status-pill status-{{ project.status }}">{{ project.get_status_display }}</span></td>
+            <td>NPR {{ project.lead.estimate.estimate_low|intcomma }}–{{ project.lead.estimate.estimate_high|intcomma }}</td>
+            <td>{{ project.next_action|default:"Not set" }}</td>
+            <td>{{ project.updated_at|timesince }} ago</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="empty-state">No projects match these filters.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+

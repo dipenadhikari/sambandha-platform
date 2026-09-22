@@ -1,0 +1,74 @@
+{% extends "projects/base.html" %}
+{% load humanize %}
+{% load static %}
+{% block title %}Project quotation — Sambandha{% endblock %}
+{% block content %}
+<section class="quote-layout shell">
+  <div class="quote-workspace">
+    <p class="eyebrow">PRELIMINARY QUOTATION</p>
+    <h1>Configure your project.</h1>
+    <p class="lede compact">This gives you a planning range, not a construction contract. Final pricing follows measurements, material selection, and technical review.</p>
+
+    <form method="post" class="quote-form" id="quote-form" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+
+      <fieldset>
+        <legend><span>1</span> Project basics</legend>
+        <div class="form-grid">
+          <label>Project type{{ form.project_type }}{{ form.project_type.errors }}</label>
+          <label>Investment level{{ form.finish_level }}{{ form.finish_level.errors }}</label>
+          <label>Project location{{ form.location }}{{ form.location.errors }}</label>
+          <label>Desired start{{ form.desired_start }}{{ form.desired_start.errors }}</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span>2</span> Work you’re considering</legend>
+        <p class="field-help">Leave a quantity at zero to exclude that service.</p>
+        <div class="service-list">
+          <label class="service-row"><span><strong>Modular kitchen</strong><small>Cabinetry, standard hardware, countertop allowance</small></span>{{ form.service_modular_kitchen }}</label>
+          <label class="service-row"><span><strong>Living room & TV wall</strong><small>Feature wall, storage, and coordinated finishes</small></span>{{ form.service_living_tv_wall }}</label>
+          <label class="service-row"><span><strong>Bathroom upgrade</strong><small>Fixtures allowance, finishes, and standard plumbing work</small></span>{{ form.service_bathroom_upgrade }}</label>
+          <label class="service-row"><span><strong>False ceiling</strong><small>Gypsum ceiling with standard lighting provisions</small></span>{{ form.service_false_ceiling }}</label>
+          <label class="service-row"><span><strong>Flooring</strong><small>Material and installation allowance</small></span>{{ form.service_flooring }}</label>
+          <label class="service-row"><span><strong>Interior painting</strong><small>Surface preparation, primer, and finish coats</small></span>{{ form.service_interior_painting }}</label>
+          <label class="service-row"><span><strong>Facade finishing</strong><small>Exterior elevation treatment and finish allowance</small></span>{{ form.service_facade_finishing }}</label>
+          <label class="service-row"><span><strong>Exterior painting</strong><small>Weather-ready preparation, primer, and finish coats</small></span>{{ form.service_exterior_painting }}</label>
+          <label class="service-row"><span><strong>Waterproofing</strong><small>Roof or wall treatment with system-based allowance</small></span>{{ form.service_waterproofing }}</label>
+          <label class="service-row"><span><strong>Landscape package</strong><small>Planting, pathways, and outdoor finishing allowance</small></span>{{ form.service_landscape_package }}</label>
+          <label class="service-row"><span><strong>Boundary gate</strong><small>Fabricated gate with standard hardware and installation</small></span>{{ form.service_boundary_gate }}</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span>3</span> Your contact details</legend>
+        <div class="form-grid">
+          <label>Full name{{ form.full_name }}{{ form.full_name.errors }}</label>
+          <label>Phone{{ form.phone }}{{ form.phone.errors }}</label>
+          <label>Email <small>(optional)</small>{{ form.email }}{{ form.email.errors }}</label>
+          <label class="full-span">Anything we should know?{{ form.notes }}{{ form.notes.errors }}</label>
+        </div>
+        <label class="check-row">{{ form.consent_to_contact }}<span>Sambandha may contact me about this project.</span></label>
+        {{ form.consent_to_contact.errors }}
+      </fieldset>
+      <button class="button primary wide" type="submit">Save estimate and request a review</button>
+    </form>
+  </div>
+
+  <aside class="estimate-card" aria-live="polite">
+    <p class="eyebrow">LIVE PLANNING RANGE</p>
+    <p class="estimate-number" id="estimate-range">Select at least one service</p>
+    <p id="estimate-level">Prices shown for the selected investment level.</p>
+    <div class="estimate-breakdown">
+      <div><span>Configured work</span><strong id="estimate-subtotal">NPR 0</strong></div>
+      <div><span>Design & coordination (6%)</span><strong id="estimate-fee">NPR 0</strong></div>
+    </div>
+    <div class="estimate-note">
+      <strong>What this number excludes</strong>
+      <p>VAT, permits, appliances, loose furniture, structural correction, and conditions that cannot be verified without a site visit.</p>
+    </div>
+  </aside>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{% static 'projects/quote.js' %}"></script>{% endblock %}
